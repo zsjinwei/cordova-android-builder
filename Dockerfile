@@ -14,7 +14,7 @@ ARG CORDOVA_VERSION=12.0.0
 ARG ANDROID_CMDTOOLS_VERSION=9477386
 
 
-LABEL maintainer="Hamdi Fourati <contact@hamdifourati.info>"
+LABEL maintainer="Huang Jinwei <zsjinwei@foxmail.com>"
 
 WORKDIR /opt/src
 
@@ -23,14 +23,16 @@ ENV ANDROID_SDK_ROOT /usr/local/android-sdk-linux
 ENV ANDROID_HOME $ANDROID_SDK_ROOT
 ENV GRADLE_USER_HOME /opt/gradle
 ENV PATH $PATH:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$GRADLE_USER_HOME/bin
+ENV NODE_OPTIONS --openssl-legacy-provider
 
 # NodeJS
 RUN echo https://deb.nodesource.com/setup_${NODEJS_VERSION}.x
 RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | bash -
-RUN apt -qq install -y nodejs
+RUN apt -qq install -y nodejs openssl vim
 
 # Cordova
-RUN npm i -g cordova@${CORDOVA_VERSION}
+RUN npm config set registry https://registry.npmmirror.com/
+RUN npm i -g cordova@${CORDOVA_VERSION} yarn && yarn config set registry https://registry.npmmirror.com/
 
 # Gradle
 RUN curl -so /tmp/gradle-${GRADLE_VERSION}-bin.zip https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
@@ -47,3 +49,4 @@ RUN curl -so /tmp/commandlinetools-linux-${ANDROID_CMDTOOLS_VERSION}_latest.zip 
 # Update and accept licences
 COPY android.packages android.packages
 RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | sdkmanager --package_file=android.packages
+RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo n; done ) | cordova -v
