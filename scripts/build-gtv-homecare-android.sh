@@ -11,4 +11,4 @@ echo "systemProp.jdk.tls.client.protocols=TLSv1.2,TLSv1.3" >> platforms/android/
 echo "systemProp.https.protocols=TLSv1.2,TLSv1.3" >> platforms/android/gradle.properties
 cd ..
 # npx quasar build -m android
-QUASAR_CLI="npx quasar" ./release.sh gtv android yes
+QUASAR_CLI="npx quasar" ./release.sh android gtv yes
