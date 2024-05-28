@@ -10,5 +10,6 @@ cordova platform add android
 echo "systemProp.jdk.tls.client.protocols=TLSv1.2,TLSv1.3" >> platforms/android/gradle.properties
 echo "systemProp.https.protocols=TLSv1.2,TLSv1.3" >> platforms/android/gradle.properties
 cd ..
+yarn add gifsicle
 # npx quasar build -m android
 QUASAR_CLI="npx quasar" ./release.sh android yishou yes
