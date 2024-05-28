@@ -7,7 +7,7 @@ ARG OPENJDK_VERSION
 #https://github.com/nodesource/distributions/blob/master/README.md
 ARG NODEJS_VERSION=20
 #https://gradle.org/releases/
-ARG GRADLE_VERSION=7.6.3
+ARG GRADLE_VERSION=7.6
 #https://www.npmjs.com/package/cordova?activeTab=versions
 ARG CORDOVA_VERSION=12.0.0
 #https://developer.android.com/studio#command-tools
@@ -35,8 +35,8 @@ RUN npm config set registry https://registry.npmmirror.com/
 RUN npm i -g cordova@${CORDOVA_VERSION} yarn && yarn config set registry https://registry.npmmirror.com/
 
 # Gradle
-RUN curl -so /tmp/gradle-${GRADLE_VERSION}-bin.zip https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
-    unzip -qd /opt /tmp/gradle-${GRADLE_VERSION}-bin.zip && \
+RUN curl -so /tmp/gradle-${GRADLE_VERSION}-all.zip https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip && \
+    unzip -qd /opt /tmp/gradle-${GRADLE_VERSION}-all.zip && \
     ln -s /opt/gradle-${GRADLE_VERSION} /opt/gradle
 
 # Android
@@ -49,4 +49,4 @@ RUN curl -so /tmp/commandlinetools-linux-${ANDROID_CMDTOOLS_VERSION}_latest.zip 
 # Update and accept licences
 COPY android.packages android.packages
 RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | sdkmanager --package_file=android.packages
-RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo n; done ) | cordova -v
+RUN cordova telemetry off
