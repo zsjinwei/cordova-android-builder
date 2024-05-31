@@ -1,15 +1,15 @@
 # 1. 登录虚拟机
 
-ssh suzhenghui@10.2.1.98
-密码 #yishouanyang2020
+ssh suzhenghui@服务器地址 -p 服务器端口
 
 # 2. 运行容器
 
+cd /home/suzhenghui/workspace/Docker/cordova-android-builder
 ./scripts/run.sh
 
 # 3. 容器运行后会出现 "root@d35d6617d861:/opt/src#" 类似字样
 
-# 4. 然后开始编译
+# 4. 然后开始编译, 脚本大致流程: 1. git clone 下载代码; 2. yarn install; 3. quasar build -m android
 
 # 4.1 编译家床易使用以下脚本
 
@@ -18,6 +18,24 @@ ssh suzhenghui@10.2.1.98
 # 4.2 编译养老易使用以下脚本
 
 /opt/scripts/build-gtv-homecare-android.sh
+
+# 5. 编译完成后
+
+ls /opt/dist # 确认是否有 apk 文件
+
+# 6. 退出容器
+
+exit
+
+# 7. 查看虚拟机中 apk 保存路径, 一般在这个目录/home/suzhenghui/workspace/Docker/cordova-android-builder/dist/xxx.apk
+
+# 8. 传输 apk 到本地, 新开一个终端窗口(标签), 执行:
+
+scp -P 服务器端口 suzhenghui@服务器地址:/home/suzhenghui/workspace/Docker/cordova-android-builder/dist/xxx.apk ./
+
+# 其中, /home/suzhenghui/workspace/Docker/cordova-android-builder/dist/xxx.apk 是第 7 步看到的 apk 路径, ./表示本地电脑目录, 执行后, 输入第 1 步的密码
+
+# 9. 结束
 
 # Build Cordova Application in Docker
 
