@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VENDOR=yishou
+export VENDOR=yishou
 
 cd /opt/src
 (sleep 5 && while [ 1 ]; do sleep 5; echo yes; done) | git clone git@git.tigeek.com:huangjinwei/home-care-service-phone.git
