@@ -45,6 +45,9 @@ RUN curl -so /tmp/commandlinetools-linux-${ANDROID_CMDTOOLS_VERSION}_latest.zip 
     unzip -qd $ANDROID_SDK_ROOT/cmdline-tools/ /tmp/commandlinetools-linux-${ANDROID_CMDTOOLS_VERSION}_latest.zip && \
     mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
 
+COPY .ssh /root/.ssh
+COPY scripts /opt/scripts
+COPY caches /opt/gradle-7.6/caches
 
 # Update and accept licences
 COPY android.packages android.packages
