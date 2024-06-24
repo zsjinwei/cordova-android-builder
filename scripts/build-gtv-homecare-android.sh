@@ -17,4 +17,5 @@ echo "systemProp.https.protocols=TLSv1.2,TLSv1.3" >> platforms/android/gradle.pr
 cd ..
 # npx quasar build -m android
 QUASAR_CLI="npx quasar" ./release.sh android ${VENDOR} yes
-cp ./dist/cordova/android/apk/release/* /opt/dist/
+# cp ./dist/cordova/android/apk/release/* /opt/dist/
+cp /opt/src-${VENDOR}/home-care-service-phone/dist/cordova/android/apk/release/gtv-com.gtv.homecare.apk /opt/dist/

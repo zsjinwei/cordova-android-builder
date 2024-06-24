@@ -18,4 +18,5 @@ cd ..
 yarn add gifsicle
 # npx quasar build -m android
 QUASAR_CLI="npx quasar" ./release.sh android ${VENDOR} yes
-cp ./dist/cordova/android/apk/release/* /opt/dist/
+# cp ./dist/cordova/android/apk/release/* /opt/dist/
+cp /opt/src-${VENDOR}/home-care-service-phone/dist/cordova/android/apk/release/yishou-com.yishou.homecare.apk /opt/dist/
