@@ -1,5 +1,4 @@
 *
-!caches/*
 !.ssh/*
 !scripts/*
 !android.packages

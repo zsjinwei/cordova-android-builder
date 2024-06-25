@@ -47,7 +47,8 @@ RUN curl -so /tmp/commandlinetools-linux-${ANDROID_CMDTOOLS_VERSION}_latest.zip 
 
 COPY .ssh /root/.ssh
 COPY scripts /opt/scripts
-COPY caches /opt/gradle-7.6/caches
+COPY prebuilds/gradle-caches.tar.gz /opt/prebuilds/
+COPY prebuilds/node_modules.tar.gz /opt/prebuilds/
 
 # Update and accept licences
 COPY android.packages android.packages
