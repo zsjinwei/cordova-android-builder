@@ -25,6 +25,13 @@ else
   echo "gradle-caches prebuild file not exists"
 fi
 
+if [ -e "/opt/prebuilds/yarn-cache.tar.gz" ]; then
+  echo "yarn-cache rebuild file exists, unpack to $(yarn cache dir)"
+  tar xzf /opt/prebuilds/yarn-cache.tar.gz -C $(yarn cache dir)
+else
+  echo "yarn-cache prebuild file not exists"
+fi
+
 if [ -e "/opt/prebuilds/node_modules.tar.gz" ]; then
   echo "gradle-caches rebuild file exists, unpack to /opt/src-${VENDOR}/${PROJECT_NAME}"
   tar xzf /opt/prebuilds/node_modules.tar.gz -C /opt/src-${VENDOR}/${PROJECT_NAME}
