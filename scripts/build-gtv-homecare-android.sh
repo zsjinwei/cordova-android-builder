@@ -6,6 +6,7 @@ export CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL=file:///tmp/gradle-7.6-all.zip
 
 mkdir /opt/src
 mkdir /opt/dist
+mkdir -p /opt/src-${VENDOR}
 
 if [ -d "/opt/src/${PROJECT_NAME}" ]; then
   echo "project directory already exists"
@@ -15,8 +16,18 @@ else
   (sleep 5 && while [ 1 ]; do sleep 5; echo yes; done) | git clone git@git.tigeek.com:huangjinwei/home-care-service-phone.git
 fi
 
-cp -ri /opt/src /opt/src-${VENDOR}
+cp -ri /opt/src/${PROJECT_NAME} /opt/src-${VENDOR}/${PROJECT_NAME}
 cd /opt/src-${VENDOR}/${PROJECT_NAME}
+
+if [ -d "/opt/src/${PROJECT_NAME}" ]; then
+  echo "copy /opt/prebuilds/node_modules to /opt/src-${VENDOR}/${PROJECT_NAME}"
+  cp -ri /opt/prebuilds/node_modules /opt/src-${VENDOR}/${PROJECT_NAME}
+fi
+
+if [ -e "/opt/prebuilds/gradle-caches.tar.gz" ]; then
+  echo "copy /opt/prebuilds/yarn.lock to /opt/src-${VENDOR}/${PROJECT_NAME}"
+  cp /opt/prebuilds/yarn.lock /opt/src-${VENDOR}/${PROJECT_NAME}
+fi
 
 if [ -e "/opt/prebuilds/gradle-caches.tar.gz" ]; then
   echo "gradle-caches rebuild file exists, unpack to /opt/gradle-7.6/"
@@ -27,7 +38,7 @@ fi
 
 if [ -e "/opt/prebuilds/yarn-cache.tar.gz" ]; then
   echo "yarn-cache rebuild file exists, unpack to $(yarn cache dir)"
-  tar xzf /opt/prebuilds/yarn-cache.tar.gz -C $(yarn cache dir)
+  tar xzf /opt/prebuilds/yarn-cache.tar.gz -C /
 else
   echo "yarn-cache prebuild file not exists"
 fi

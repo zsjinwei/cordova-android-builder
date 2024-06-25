@@ -45,11 +45,14 @@ RUN curl -so /tmp/commandlinetools-linux-${ANDROID_CMDTOOLS_VERSION}_latest.zip 
     unzip -qd $ANDROID_SDK_ROOT/cmdline-tools/ /tmp/commandlinetools-linux-${ANDROID_CMDTOOLS_VERSION}_latest.zip && \
     mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
 
-COPY .ssh /root/.ssh
-COPY scripts /opt/scripts
-COPY prebuilds /opt/prebuilds
-
 # Update and accept licences
 COPY android.packages android.packages
 RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | sdkmanager --package_file=android.packages
 RUN cordova telemetry off
+
+COPY .ssh /root/.ssh
+COPY scripts /opt/scripts
+COPY prebuilds /opt/prebuilds
+
+RUN cd /opt/prebuilds && \
+    yarn install
