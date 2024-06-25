@@ -56,8 +56,9 @@ COPY prebuilds /opt/prebuilds
 
 RUN mkdir /opt/src-build && \
     cp /opt/prebuilds/package.json /opt/src-build && \
+    cp /opt/prebuilds/yarn.lock /opt/src-build && \
     cd /opt/src-build && \
-    yarn install && \
+    yarn install --frozen-lockfile && \
     mv /opt/src-build/node_modules /opt/prebuilds/node_modules && \
     mv /opt/src-build/yarn.lock /opt/prebuilds/yarn.lock
 
