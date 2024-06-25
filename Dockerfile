@@ -54,5 +54,10 @@ COPY .ssh /root/.ssh
 COPY scripts /opt/scripts
 COPY prebuilds /opt/prebuilds
 
-RUN cd /opt/prebuilds && \
-    yarn install
+RUN mkdir /opt/src-build && \
+    cp /opt/prebuilds/package.json /opt/src-build && \
+    cd /opt/src-build && \
+    yarn install && \
+    cp -ri /opt/src-build/node_modules /opt/prebuilds/node_modules && \
+    cp /opt/src-build/yarn.lock /opt/prebuilds/yarn.lock
+

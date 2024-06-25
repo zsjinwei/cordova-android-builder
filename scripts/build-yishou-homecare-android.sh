@@ -3,53 +3,60 @@
 export VENDOR=yishou
 export PROJECT_NAME=home-care-service-phone
 export CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL=file:///tmp/gradle-7.6-all.zip
+export CLONE_SOURCE_DIR=/opt/src
+export BUILD_SOURCE_DIR=/opt/src-build
+export DIST_DIR=/opt/dist
+export PREBUILDS_DIR=/opt/prebuilds
 
-mkdir /opt/src
-mkdir /opt/dist
-mkdir -p /opt/src-${VENDOR}
+mkdir ${CLONE_SOURCE_DIR}
+mkdir ${dist_dir}
+mkdir -p ${BUILD_SOURCE_DIR}
 
-if [ -d "/opt/src/${PROJECT_NAME}" ]; then
+if [ -d "${CLONE_SOURCE_DIR}/${PROJECT_NAME}" ]; then
   echo "project directory already exists"
 else
   echo "project directory is not exists"
-  cd /opt/src
+  cd ${CLONE_SOURCE_DIR}
   (sleep 5 && while [ 1 ]; do sleep 5; echo yes; done) | git clone git@git.tigeek.com:huangjinwei/home-care-service-phone.git
 fi
 
-cp -ri /opt/src/${PROJECT_NAME} /opt/src-${VENDOR}/${PROJECT_NAME}
-cd /opt/src-${VENDOR}/${PROJECT_NAME}
+cp -ri ${CLONE_SOURCE_DIR}/${PROJECT_NAME} ${BUILD_SOURCE_DIR}/${PROJECT_NAME}
+cd ${BUILD_SOURCE_DIR}/${PROJECT_NAME}
 
-if [ -d "/opt/src/${PROJECT_NAME}" ]; then
-  echo "copy /opt/prebuilds/node_modules to /opt/src-${VENDOR}/${PROJECT_NAME}"
-  cp -ri /opt/prebuilds/node_modules /opt/src-${VENDOR}/${PROJECT_NAME}
+if [ -d "${PREBUILDS_DIR}/node_modules" ]; then
+  echo "copy ${PREBUILDS_DIR}/node_modules to ${BUILD_SOURCE_DIR}/${PROJECT_NAME}"
+  cp -ri ${PREBUILDS_DIR}/node_modules ${BUILD_SOURCE_DIR}/${PROJECT_NAME}
 fi
 
-if [ -e "/opt/prebuilds/gradle-caches.tar.gz" ]; then
+if [ -e "${PREBUILDS_DIR}/yarn.lock" ]; then
+  echo "yarn.lock file exists, copy to ${BUILD_SOURCE_DIR}/${PROJECT_NAME}"
+  cp ${PREBUILDS_DIR}/yarn.lock ${BUILD_SOURCE_DIR}/${PROJECT_NAME}
+else
+  echo "yarn.lock file not exists"
+fi
+
+if [ -e "${PREBUILDS_DIR}/gradle-caches.tar.gz" ]; then
   echo "gradle-caches rebuild file exists, unpack to /opt/gradle-7.6/"
-  tar xzf /opt/prebuilds/gradle-caches.tar.gz -C /opt/gradle-7.6/
+  tar xzf ${PREBUILDS_DIR}/gradle-caches.tar.gz -C /opt/gradle-7.6/
 else
   echo "gradle-caches prebuild file not exists"
 fi
 
-if [ -e "/opt/prebuilds/yarn-cache.tar.gz" ]; then
+if [ -e "${PREBUILDS_DIR}/yarn-cache.tar.gz" ]; then
   echo "yarn-cache rebuild file exists, unpack to $(yarn cache dir)"
-  tar xzf /opt/prebuilds/yarn-cache.tar.gz -C /
+  tar xzf ${PREBUILDS_DIR}/yarn-cache.tar.gz -C /
 else
   echo "yarn-cache prebuild file not exists"
 fi
 
-if [ -e "/opt/prebuilds/node_modules.tar.gz" ]; then
-  echo "gradle-caches rebuild file exists, unpack to /opt/src-${VENDOR}/${PROJECT_NAME}"
-  tar xzf /opt/prebuilds/node_modules.tar.gz -C /opt/src-${VENDOR}/${PROJECT_NAME}
+if [ -e "${PREBUILDS_DIR}/node_modules.tar.gz" ]; then
+  echo "gradle-caches rebuild file exists, unpack to ${BUILD_SOURCE_DIR}/${PROJECT_NAME}"
+  if [ -d "${BUILD_SOURCE_DIR}/${PROJECT_NAME}/node_modules" ]; then
+    rm -rf ${BUILD_SOURCE_DIR}/${PROJECT_NAME}/node_modules
+  fi
+  tar xzf ${PREBUILDS_DIR}/node_modules.tar.gz -C ${BUILD_SOURCE_DIR}/${PROJECT_NAME}
 else
   echo "node_modules prebuild file not exists"
-fi
-
-if [ -e "/opt/prebuilds/yarn.lock" ]; then
-  echo "yarn.lock rebuild file exists, copy to /opt/src-${VENDOR}/${PROJECT_NAME}"
-  cp /opt/prebuilds/yarn.lock /opt/src-${VENDOR}/${PROJECT_NAME}
-else
-  echo "yarn.lock file not exists"
 fi
 
 yarn install
@@ -62,5 +69,5 @@ echo "systemProp.https.protocols=TLSv1.2,TLSv1.3" >> platforms/android/gradle.pr
 cd ..
 # npx quasar build -m android
 QUASAR_CLI="npx quasar" ./release.sh android ${VENDOR} yes
-# cp ./dist/cordova/android/apk/release/* /opt/dist/
-cp /opt/src-${VENDOR}/${PROJECT_NAME}/dist/cordova/android/apk/release/yishou-com.yishou.homecare.apk /opt/dist/
+# cp ./dist/cordova/android/apk/release/* ${dist_dir}/
+cp ${BUILD_SOURCE_DIR}/${PROJECT_NAME}/dist/cordova/android/apk/release/${VENDOR}-com.${VENDOR}.homecare.apk ${dist_dir}/
