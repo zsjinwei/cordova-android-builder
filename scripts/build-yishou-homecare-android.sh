@@ -15,6 +15,9 @@ else
   (sleep 5 && while [ 1 ]; do sleep 5; echo yes; done) | git clone git@git.tigeek.com:huangjinwei/home-care-service-phone.git
 fi
 
+cp -ri /opt/src /opt/src-${VENDOR}
+cd /opt/src-${VENDOR}/${PROJECT_NAME}
+
 if [ -e "/opt/prebuilds/gradle-caches.tar.gz" ]; then
   echo "gradle-caches rebuild file exists, unpack to /opt/gradle-7.6/"
   tar xzf /opt/prebuilds/gradle-caches.tar.gz -C /opt/gradle-7.6/
@@ -28,9 +31,6 @@ if [ -e "/opt/prebuilds/node_modules.tar.gz" ]; then
 else
     echo "node_modules prebuild file not exists"
 fi
-
-cp -ri /opt/src /opt/src-${VENDOR}
-cd /opt/src-${VENDOR}/${PROJECT_NAME}
 
 yarn install
 cd src-cordova
