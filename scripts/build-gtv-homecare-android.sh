@@ -22,14 +22,21 @@ if [ -e "/opt/prebuilds/gradle-caches.tar.gz" ]; then
   echo "gradle-caches rebuild file exists, unpack to /opt/gradle-7.6/"
   tar xzf /opt/prebuilds/gradle-caches.tar.gz -C /opt/gradle-7.6/
 else
-    echo "gradle-caches prebuild file not exists"
+  echo "gradle-caches prebuild file not exists"
 fi
 
 if [ -e "/opt/prebuilds/node_modules.tar.gz" ]; then
   echo "gradle-caches rebuild file exists, unpack to /opt/src-${VENDOR}/${PROJECT_NAME}"
   tar xzf /opt/prebuilds/node_modules.tar.gz -C /opt/src-${VENDOR}/${PROJECT_NAME}
 else
-    echo "node_modules prebuild file not exists"
+  echo "node_modules prebuild file not exists"
+fi
+
+if [ -e "/opt/prebuilds/yarn.lock" ]; then
+  echo "gradle-caches rebuild file exists, copy to /opt/src-${VENDOR}/${PROJECT_NAME}"
+  cp /opt/prebuilds/yarn.lock /opt/src-${VENDOR}/${PROJECT_NAME}
+else
+  echo "node_modules prebuild file not exists"
 fi
 
 yarn install
