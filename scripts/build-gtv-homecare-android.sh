@@ -9,8 +9,8 @@ export DIST_DIR=/opt/dist
 export PREBUILDS_DIR=/opt/prebuilds
 
 mkdir ${CLONE_SOURCE_DIR}
-mkdir ${dist_dir}
-mkdir -p ${BUILD_SOURCE_DIR}
+mkdir ${DIST_DIR}
+mkdir ${BUILD_SOURCE_DIR}
 
 if [ -d "${CLONE_SOURCE_DIR}/${PROJECT_NAME}" ]; then
   echo "project directory already exists"
@@ -25,7 +25,7 @@ if [ -d "${BUILD_SOURCE_DIR}" ]; then
   rm -rf ${BUILD_SOURCE_DIR}/*
 fi
 
-cp -ri ${CLONE_SOURCE_DIR}/${PROJECT_NAME}/* ${BUILD_SOURCE_DIR}/
+cp -ri ${CLONE_SOURCE_DIR}/${PROJECT_NAME}/. ${BUILD_SOURCE_DIR}/
 cd ${BUILD_SOURCE_DIR}
 
 if [ -d "${PREBUILDS_DIR}/node_modules" ]; then
@@ -74,5 +74,5 @@ echo "systemProp.https.protocols=TLSv1.2,TLSv1.3" >> platforms/android/gradle.pr
 cd ..
 # npx quasar build -m android
 QUASAR_CLI="npx quasar" ./release.sh android ${VENDOR} yes
-# cp ./dist/cordova/android/apk/release/* ${dist_dir}/
-cp ${BUILD_SOURCE_DIR}/dist/cordova/android/apk/release/${VENDOR}-com.${VENDOR}.homecare.apk ${dist_dir}/
+# cp ./dist/cordova/android/apk/release/* ${DIST_DIR}/
+cp ${BUILD_SOURCE_DIR}/dist/cordova/android/apk/release/${VENDOR}-com.${VENDOR}.homecare.apk ${DIST_DIR}/
