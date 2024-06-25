@@ -58,6 +58,6 @@ RUN mkdir /opt/src-build && \
     cp /opt/prebuilds/package.json /opt/src-build && \
     cd /opt/src-build && \
     yarn install && \
-    cp -ri /opt/src-build/node_modules /opt/prebuilds/node_modules && \
-    cp /opt/src-build/yarn.lock /opt/prebuilds/yarn.lock
+    mv /opt/src-build/node_modules /opt/prebuilds/node_modules && \
+    mv /opt/src-build/yarn.lock /opt/prebuilds/yarn.lock
 
