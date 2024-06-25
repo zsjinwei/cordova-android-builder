@@ -1,4 +1,5 @@
 *
+!prebuilds/*
 !.ssh/*
 !scripts/*
 !android.packages
