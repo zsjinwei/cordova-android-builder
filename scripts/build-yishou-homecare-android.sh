@@ -80,3 +80,4 @@ QUASAR_CLI="npx quasar" ./release.sh android ${VENDOR} yes
 # cp ./dist/cordova/android/apk/release/* ${DIST_DIR}/
 # cp ${BUILD_SOURCE_DIR}/dist/cordova/android/apk/release/${PACKAGE_ID}.apk ${DIST_DIR}/
 cp ${BUILD_SOURCE_DIR}/src-cordova/platforms/android/app/build/outputs/apk/release/app-release.apk ${DIST_DIR}/${PACKAGE_ID}-${PACKAGE_VER}.apk
+cp ${BUILD_SOURCE_DIR}/src-cordova/platforms/android/app/build/outputs/apk/release/output-metadata.json ${DIST_DIR}/${PACKAGE_ID}-${PACKAGE_VER}-metadata.json
