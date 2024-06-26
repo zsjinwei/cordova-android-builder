@@ -28,7 +28,7 @@ ENV NODE_OPTIONS --openssl-legacy-provider
 # NodeJS
 RUN echo https://deb.nodesource.com/setup_${NODEJS_VERSION}.x
 RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | bash -
-RUN apt -qq install -y nodejs openssl vim
+RUN apt -qq install -y nodejs openssl vim jq
 
 # Cordova
 RUN npm config set registry https://registry.npmmirror.com/
