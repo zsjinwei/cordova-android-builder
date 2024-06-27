@@ -77,10 +77,11 @@ echo "systemProp.https.protocols=TLSv1.2,TLSv1.3" >> platforms/android/gradle.pr
 cd ..
 # build apk
 QUASAR_CLI="npx quasar" ./release.sh android ${VENDOR} yes
-# build chcp
-QUASAR_CLI="npx quasar" ./release.sh android_chcp ${VENDOR}
 # cp ./dist/cordova/android/apk/release/* ${DIST_DIR}/
 # cp ${BUILD_SOURCE_DIR}/dist/cordova/android/apk/release/${PACKAGE_ID}.apk ${DIST_DIR}/
 cp ${BUILD_SOURCE_DIR}/src-cordova/platforms/android/app/build/outputs/apk/release/app-release.apk ${DIST_DIR}/${PACKAGE_ID}-${PACKAGE_VER}.apk
 cp ${BUILD_SOURCE_DIR}/src-cordova/platforms/android/app/build/outputs/apk/release/output-metadata.json ${DIST_DIR}/${PACKAGE_ID}-${PACKAGE_VER}-metadata.json
+
+# build chcp
+QUASAR_CLI="npx quasar" ./release.sh android_chcp ${VENDOR}
 cp ${BUILD_SOURCE_DIR}/dist/chcp/*.zip ${DIST_DIR}/
